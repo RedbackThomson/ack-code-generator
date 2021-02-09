@@ -24,6 +24,7 @@ var (
 		Group: "{{ .APIGroup }}",
 		Kind:  "{{ .CRD.Kind }}",
 	}
+	nameField string = "{{ .CRD.NameField }}"
 )
 
 // resourceDescriptor implements the
@@ -41,6 +42,12 @@ func (d *resourceDescriptor) GroupKind() *metav1.GroupKind {
 // apimachinery and k8s client operations
 func (d *resourceDescriptor) EmptyRuntimeObject() k8sapirt.Object {
 	return &svcapitypes.{{ .CRD.Kind }}{}
+}
+
+// NameField returns the name of the spec field which specifies the unique
+// identifier for any resource of the given type
+func (d *resourceDescriptor) NameField() string {
+	return nameField;
 }
 
 // ResourceFromRuntimeObject returns an AWSResource that has been initialized
