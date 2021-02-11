@@ -64,3 +64,8 @@ func (r *resource) SetNameField(identifier string) {
 func (r *resource) SetObjectMeta(meta metav1.ObjectMeta) {
 	r.ko.ObjectMeta = meta;
 }
+
+// SetARN sets the ARN field for the resource metadata in the status
+func (r *resource) SetARN(arn *ackv1alpha1.AWSResourceName) {
+	r.ko.Status.ACKResourceMetadata.ARN = arn
+}

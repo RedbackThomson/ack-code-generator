@@ -36,7 +36,7 @@ func (f *resourceManagerFactory) ManagerFor(
 	cfg ackcfg.Config,
 	log logr.Logger,
 	metrics *ackmetrics.Metrics,
-	rr acktypes.ACKReconciler,
+	rr acktypes.Reconciler,
 	sess *session.Session,
 	id ackv1alpha1.AWSAccountID,
 	region ackv1alpha1.AWSRegion,
