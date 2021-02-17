@@ -5,6 +5,7 @@ package {{ .CRD.Names.Snake }}
 import (
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
 	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
+	ackerrors "github.com/aws-controllers-k8s/runtime/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8srt "k8s.io/apimachinery/pkg/runtime"
 
@@ -55,17 +56,21 @@ func (r *resource) Conditions() []*ackv1alpha1.Condition {
 	return r.ko.Status.Conditions
 }
 
-// SetNameField sets the name spec field for the resource to a given value
-func (r *resource) SetNameField(identifier string) {
-	r.ko.Spec.{{ .CRD.NameField }} = &identifier;
-}
-
 // SetObjectMeta sets the ObjectMeta field for the resource
 func (r *resource) SetObjectMeta(meta metav1.ObjectMeta) {
 	r.ko.ObjectMeta = meta;
 }
 
-// SetARN sets the ARN field for the resource metadata in the status
-func (r *resource) SetARN(arn *ackv1alpha1.AWSResourceName) {
-	r.ko.Status.ACKResourceMetadata.ARN = arn
+// SetIdentifiers sets the Spec or Status field that is referenced as the unique
+// resource identifier
+func (r *resource) SetIdentifiers(identifier *ackv1alpha1.AWSIdentifiers) error {
+{{- if .CRD.SpecIdentifierField }}
+	if identifier.NameOrID == nil {
+		return ackerrors.MissingNameIdentifier
+	}
+	r.ko.{{ .CRD.SpecIdentifierField }} = *identifier.NameOrID
+{{- else }}
+	r.ko.Status.ACKResourceMetadata.ARN = identifier.ARN
+{{- end }}
+	return nil
 }

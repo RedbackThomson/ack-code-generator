@@ -94,8 +94,8 @@ type CRD struct {
 	// ShortNames represent the CRD list of aliases. Short names allow shorter
 	// strings to match a CR on the CLI.
 	ShortNames []string
-	// NameField is the original SDK member name of the identifier spec field
-	NameField string
+	// SpecIdentifierField is the original SDK member name of the identifier spec field
+	SpecIdentifierField *string
 }
 
 // Config returns a pointer to the generator config
@@ -406,14 +406,14 @@ func (r *CRD) UpdateConditionsCustomMethodName() string {
 	return resGenConfig.UpdateConditionsCustomMethodName
 }
 
-// NameField returns the name of the "Name" or string identifier field in the Spec
-func (r *CRD) GetNameField() string {
+// GetSpecIdentifierField returns the name of the "Name" or string identifier field in the Spec
+func (r *CRD) GetSpecIdentifierField() *string {
 	if r.cfg != nil {
 		rConfig, found := r.cfg.Resources[r.Names.Original]
 		if found {
 			for fName, fConfig := range rConfig.Fields {
 				if fConfig.IsName {
-					return fName
+					return &fName
 				}
 			}
 		}
@@ -425,10 +425,10 @@ func (r *CRD) GetNameField() string {
 	}
 	for memberName := range r.SpecFields {
 		if util.InStrings(memberName, lookup) {
-			return memberName
+			return &memberName
 		}
 	}
-	return "???"
+	return nil
 }
 
 // CustomUpdateMethodName returns the name of the custom resourceManager method

@@ -224,7 +224,7 @@ func (g *Generator) GetCRDs() ([]*ackmodel.CRD, error) {
 		}
 
 		// TODO(nithomso): Is this the correct casing?
-		crd.NameField = crd.GetNameField()
+		crd.SpecIdentifierField = crd.GetSpecIdentifierField()
 
 		crds = append(crds, crd)
 	}
