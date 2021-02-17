@@ -61,6 +61,11 @@ func (f *resourceManagerFactory) ManagerFor(
 	return rm, nil
 }
 
+// IsAdoptable returns true if the resource is able to be adopted
+func (f *resourceManagerFactory) IsAdoptable() bool {
+	return {{ .CRD.IsAdoptable }}
+}
+
 func newResourceManagerFactory() *resourceManagerFactory {
 	return &resourceManagerFactory{
 		rmCache: map[string]*resourceManager{},

@@ -94,8 +94,12 @@ type CRD struct {
 	// ShortNames represent the CRD list of aliases. Short names allow shorter
 	// strings to match a CR on the CLI.
 	ShortNames []string
-	// SpecIdentifierField is the original SDK member name of the identifier spec field
+	// SpecIdentifierField is the original SDK member name of the identifier
+	// spec field
 	SpecIdentifierField *string
+	// IsAdoptable determines whether the resource should be accepted by the
+	// adoption reconciler
+	IsAdoptable bool
 }
 
 // Config returns a pointer to the generator config

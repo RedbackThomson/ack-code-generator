@@ -223,8 +223,8 @@ func (g *Generator) GetCRDs() ([]*ackmodel.CRD, error) {
 			}
 		}
 
-		// TODO(nithomso): Is this the correct casing?
 		crd.SpecIdentifierField = crd.GetSpecIdentifierField()
+		crd.IsAdoptable = g.cfg.ResourceIsAdoptable(crdName)
 
 		crds = append(crds, crd)
 	}
