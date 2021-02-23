@@ -68,7 +68,7 @@ func (r *resource) SetIdentifiers(identifier *ackv1alpha1.AWSIdentifiers) error 
 	if identifier.NameOrID == nil {
 		return ackerrors.MissingNameIdentifier
 	}
-	r.ko.{{ .CRD.SpecIdentifierField }} = *identifier.NameOrID
+	r.ko.Spec.{{ .CRD.SpecIdentifierField }} = identifier.NameOrID
 {{- else }}
 	r.ko.Status.ACKResourceMetadata.ARN = identifier.ARN
 {{- end }}
